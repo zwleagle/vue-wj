@@ -2,6 +2,7 @@ package com.evan.wj.controller;
 
 
 import com.evan.wj.pojo.Book;
+import com.evan.wj.pojo.Search;
 import com.evan.wj.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,17 @@ public class LibraryController {
             return bookService.listByCategory(cid);
         } else {
             return list();
+        }
+    }
+
+
+    @PostMapping("/api/search")
+    public List<Book> searchResult(@RequestBody Search s) throws Exception {
+        // 关键字为空时查询所有书籍
+        if ("".equals(s.getKeywords())) {
+            return bookService.list();
+        } else {
+            return bookService.Search(s.getKeywords());
         }
     }
 

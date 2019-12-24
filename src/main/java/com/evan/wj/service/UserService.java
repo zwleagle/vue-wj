@@ -35,4 +35,9 @@ public class UserService {
         userDAO.save(user);
     }
 
+    public void  addOrUpdate(User user){
+
+        userDAO.save(user);
+    }
+
 }

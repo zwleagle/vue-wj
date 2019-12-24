@@ -2,7 +2,9 @@ package com.evan.wj.pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
+import javax.annotation.sql.DataSourceDefinition;
 import javax.persistence.*;
 
 @Entity

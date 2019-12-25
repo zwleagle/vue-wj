@@ -6,6 +6,8 @@ import com.evan.wj.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -38,6 +40,13 @@ public class UserService {
     public void  addOrUpdate(User user){
 
         userDAO.save(user);
+    }
+
+    public List<User> list(){
+
+        return userDAO.findAll();
+
+
     }
 
 }

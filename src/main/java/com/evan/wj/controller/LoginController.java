@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin
 public class LoginController {
 
 

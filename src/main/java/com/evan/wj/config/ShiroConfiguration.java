@@ -1,6 +1,7 @@
 package com.evan.wj.config;
 
 
+import com.evan.wj.filter.URLPathMatchingFilter;
 import com.evan.wj.realm.WJRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -12,6 +13,11 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.servlet.Filter;
 
 @Configuration
 public class ShiroConfiguration {
@@ -27,6 +33,29 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+        Map<String, String > filterChainDefinitionMap = new LinkedHashMap<String, String>();
+        Map<String, Filter> customizedFilter = new HashMap<>();
+
+        // 设置自定义过滤器名称为 url
+        customizedFilter.put("url", getURLPathMatchingFilter());
+
+        // 配置不会被拦截的链接 顺序判断
+        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/public/**", "anon");
+
+
+        // 对管理接口的访问启用自定义拦截（url 规则），即执行 URLPathMatchingFilter 中定义的过滤方法
+        filterChainDefinitionMap.put("/api/admin/**", "url");
+        //filterChainDefinitionMap.put("/api/login/**", "ano");
+        // 启用自定义过滤器
+        shiroFilterFactoryBean.setFilters(customizedFilter);
+        filterChainDefinitionMap.put("/api/authentication", "authc");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+
+        shiroFilterFactoryBean.setLoginUrl("/login");
+
+
         return shiroFilterFactoryBean;
     }
 
@@ -78,6 +107,8 @@ public class ShiroConfiguration {
         return simpleCookie;
     }
 
-
+    public URLPathMatchingFilter getURLPathMatchingFilter() {
+        return new URLPathMatchingFilter();
+    }
 
 }

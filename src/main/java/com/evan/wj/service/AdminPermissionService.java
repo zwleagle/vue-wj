@@ -5,6 +5,7 @@ import com.evan.wj.dao.AdminPermissionDAO;
 import com.evan.wj.dao.AdminRoleDAO;
 import com.evan.wj.dao.AdminRolePermissionDAO;
 import com.evan.wj.pojo.*;
+import org.apache.shiro.authz.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +79,14 @@ public class AdminPermissionService {
         }
         return false;
     }
+
+
+    public AdminPermission findById(int id) {
+        return adminPermissionDAO.findById(id);
+    }
+
+
+
+
 
 }

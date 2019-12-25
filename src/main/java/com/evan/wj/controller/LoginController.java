@@ -60,11 +60,11 @@ public class LoginController {
 
     }
 
-    @GetMapping("/login")
-    public Result login() {
-        String message = "非法登录";
-        return ResultFactory.buildSuccessResult(message);
-    }
+//    @GetMapping("/login")
+//    public Result login() {
+//        String message = "非法登录";
+//        return ResultFactory.buildSuccessResult(message);
+//    }
 
 
 

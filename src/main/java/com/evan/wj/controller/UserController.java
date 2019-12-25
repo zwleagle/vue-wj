@@ -7,6 +7,7 @@ import com.evan.wj.result.Result;
 import com.evan.wj.result.ResultFactory;
 import com.evan.wj.service.AdminRoleService;
 import com.evan.wj.service.UserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,11 +26,13 @@ public class UserController {
 
     @GetMapping("/api/admin/user")
     @ResponseBody
+    @RequiresPermissions("/api/admin/user")
     public List<User> listUsers() throws Exception {
         return userService.list();
     }
 
     @PutMapping("/api/admin/user")
+    @RequiresPermissions("/api/admin/user")
     @ResponseBody
     public Result updateUserStatus(@RequestBody User requestUser) {
 
@@ -45,6 +48,7 @@ public class UserController {
 
 
     @GetMapping("/api/admin/role")
+    @RequiresPermissions("/api/admin/role")
     @ResponseBody
     public List<AdminRole> listRoles() throws Exception {
         return adminRoleService.list();
@@ -52,6 +56,7 @@ public class UserController {
 
 
     @PutMapping("/api/admin/role")
+    @RequiresPermissions("/api/admin/role")
     @ResponseBody
     public Result updateRoleStatus(@RequestBody AdminRole requestRole) {
         AdminRole adminRole = adminRoleService.findById(requestRole.getId());
